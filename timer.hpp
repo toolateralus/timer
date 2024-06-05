@@ -1,6 +1,7 @@
 #include <atomic>
 #include <chrono>
 #include <functional>
+#include <iostream>
 #include <thread>
 
 struct Timer {
@@ -14,10 +15,12 @@ struct Timer {
   }
   
   void start() {
+    this->elapsed = std::chrono::milliseconds(0);
     if (thread != nullptr) {
       thread->join();
       delete thread;
     }
+    cancelled = false;
     thread = new std::thread(&Timer::m_run, this);
   }
   void stop() {

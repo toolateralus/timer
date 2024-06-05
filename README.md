@@ -23,21 +23,22 @@ int main() {
   Timer timer(1000, [](elapsed){
     std::cout << "elasped: " << elapsed << std::endl;
   }, true);
-
+  
   // begin the timer
   timer.start();
-
+  
   // for demonstration, loop until the user enters a char.
   // the timer should print the elapsed duration at the specified interval until this exits.
-  char c
-  while(std::cin << c);
-
+  char c;
+  std::cin >> c;
+  
   // in this case, this is unneccesary, but this will stop the timer.
-  timer.stop()
-
-
+  timer.stop();
+  
   // this would reset the timer, and begin again.
   timer.start();
+  
+  std::cin >> c;
 }
 
 ```
