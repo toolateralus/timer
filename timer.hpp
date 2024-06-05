@@ -1,20 +1,20 @@
+#pragma once
 #include <atomic>
 #include <chrono>
 #include <functional>
-#include <iostream>
 #include <thread>
 
 struct Timer {
   std::chrono::milliseconds elapsed = std::chrono::milliseconds(0);
   
-  Timer(const int duration_ms, std::function<void(const int &)> callback,
+  inline Timer(const int duration_ms, std::function<void(const int &)> callback,
         const bool recurring = false)
       : callback(callback), recurring(recurring) {
     this->duration_ms = std::chrono::milliseconds(duration_ms);
     this->cancelled = false;
   }
   
-  void start() {
+  inline void start() {
     this->elapsed = std::chrono::milliseconds(0);
     if (thread != nullptr) {
       thread->join();
@@ -23,13 +23,13 @@ struct Timer {
     cancelled = false;
     thread = new std::thread(&Timer::m_run, this);
   }
-  void stop() {
+  inline void stop() {
     if (thread == nullptr) {
       return;
     }
     cancelled = true;
   }
-  ~Timer() {
+  inline ~Timer() {
     stop();
     if (thread->joinable()) {
       thread->join();
@@ -41,7 +41,7 @@ struct Timer {
   Timer(Timer&&) = delete;
   Timer& operator=(Timer&&) = delete;
 private:
-  void m_run() {
+  inline void m_run() {
     do {
       std::this_thread::sleep_for(duration_ms);
       if (cancelled) {
